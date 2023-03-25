@@ -16,7 +16,7 @@ sprintsRouter.post("/", async (req, res) => {
   try {
     const sprints = new SprintModel(body);
     await sprints.save();
-    res.status(200).send({ msg: "event added" });
+    res.status(200).send({ msg: "Sprint Added" });
   } catch (err) {
     res.status(404).send({ msg: "404 error" });
   }

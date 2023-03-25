@@ -10,7 +10,8 @@ import AddTaskModal from "./AddTaskModal";
 
 const NavbarMain = () => {
   const [modalShow, setModalShow] = React.useState(false);
-
+  const res=JSON.parse(localStorage.getItem("res"))||"";
+  
   return (
     <>
       <Navbar
@@ -40,7 +41,7 @@ const NavbarMain = () => {
               >
                 Add Task
               </Button>
-              <GoogleLogin
+              {res===""?<GoogleLogin
                 onSuccess={(credentialResponse) => {
                   console.log(credentialResponse);
                   var decoded = jwt_decode(credentialResponse.credential);
@@ -63,7 +64,7 @@ const NavbarMain = () => {
                   console.log("Login Failed");
                   alert("login failed");
                 }}
-              />
+              />:<Button variant="light"><img style={{width:"30px",borderRadius:"50%",marginRight:"10px",height:"30px"}} src={res.avatar} alt="" />{res.username}</Button>}
             </Nav>
           </Navbar.Collapse>
         </Container>
