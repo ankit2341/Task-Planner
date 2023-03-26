@@ -13,7 +13,7 @@ app.use("/tasks", tasksRouter);
 
 app.get("/", async (req, res) => {
   try {
-    res.status(200).send("welocme to ecamp database");
+    res.status(200).send("welocme to task planner database");
   } catch (err) {
     res.status(404).send({ msg: "error connecting to api" });
   }
