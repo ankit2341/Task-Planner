@@ -30,7 +30,6 @@ const LandingPage = () => {
       .catch((err) => {
         setList([]);
       });
-    toast.success("Login Success");
 
     fetch(`${process.env.REACT_APP_API_URL}tasks`)
       .then((res) => {
