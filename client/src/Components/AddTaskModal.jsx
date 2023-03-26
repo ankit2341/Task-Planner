@@ -5,10 +5,14 @@ import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 
 const AddTaskModal = (props) => {
-  const handleCreateTask = () => {};
   const res = JSON.parse(localStorage.getItem("res")) || "";
   const [usersList, setUsersList] = useState([]);
   const [sprintList, setSprintList] = useState([]);
+  const [nameOfTask, setNameOfTask] = useState("");
+  const [typeOfTask, setTypeOfTask] = useState("");
+  const [taskAssign, setTaskAssign] = useState("");
+  const [sprintAssign, setSprintAssign] = useState("");
+  const [statusOfTask, setStatusOfTask] = useState("");
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}sprints`)
@@ -34,6 +38,57 @@ const AddTaskModal = (props) => {
       });
   }, []);
 
+  const handleCreateTask = (e) => {
+    e.preventDefault();
+    if (
+      nameOfTask === "" ||
+      typeOfTask === "" ||
+      taskAssign === "" ||
+      sprintAssign === "" ||
+      statusOfTask === ""
+    ) {
+      toast.warn("Please fill all fields!");
+    } else {
+      const assigneeData = usersList.filter((el) => {
+        return el._id === taskAssign;
+      });
+
+      const payload = {
+        title: nameOfTask,
+        type: typeOfTask,
+        assigneeId: assigneeData[0]._id,
+        assigneeName: assigneeData[0].username,
+        assigneeAvatar: assigneeData[0].avatar,
+        sprintId: sprintAssign,
+        status: statusOfTask,
+      };
+      fetch(`${process.env.REACT_APP_API_URL}tasks/add`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.msg === "Task Added") {
+            toast.success("Task Added Successfully!");
+            props.onHide();
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          } else {
+            toast.error("Failed to add task");
+          }
+        })
+        .catch((err) => {
+          toast.error("Failed to add task");
+        });
+    }
+  };
+
   return (
     <Modal
       {...props}
@@ -47,21 +102,28 @@ const AddTaskModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {/* title:String,
-    type:String,
-    assigneeId:String,
-    assigneeName:String,
-    assigneeAvatar:String,
-    sprintId:String,
-    status:String */}
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Name Of Task</Form.Label>
-            <Form.Control type="text" placeholder="Name Of Task" />
+            <Form.Control
+              value={nameOfTask}
+              onChange={(e) => {
+                setNameOfTask(e.target.value);
+              }}
+              type="text"
+              placeholder="Name Of Task"
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Type Of Task</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select
+              value={typeOfTask}
+              onChange={(e) => {
+                setTypeOfTask(e.target.value);
+              }}
+              aria-label="Default select example"
+            >
+              <option value="">Select type of task</option>
               <option value="bug">Bug</option>
               <option value="feature">Feature</option>
               <option value="story">Story</option>
@@ -70,20 +132,17 @@ const AddTaskModal = (props) => {
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Task Assign</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select
+              value={taskAssign}
+              onChange={(e) => {
+                setTaskAssign(e.target.value);
+              }}
+              aria-label="Default select example"
+            >
+              <option value="">Select user to assign task</option>
               {usersList.map((el) => {
                 return (
-                  <option value={el._id}>
-                    <img
-                      style={{
-                        width: "30px",
-                        borderRadius: "50%",
-                        marginRight: "10px",
-                        height: "30px",
-                      }}
-                      src={el.avatar}
-                      alt=""
-                    />
+                  <option key={el._id} value={el._id}>
                     {el.username}
                   </option>
                 );
@@ -92,10 +151,17 @@ const AddTaskModal = (props) => {
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Sprint Assign</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select
+              value={sprintAssign}
+              onChange={(e) => {
+                setSprintAssign(e.target.value);
+              }}
+              aria-label="Default select example"
+            >
+              <option value="">Select sprint to assign task</option>
               {sprintList.map((el) => {
                 return (
-                  <option value={el._id}>
+                  <option key={el._id} value={el._id}>
                     {el.title} From :- {el.startDate} To :-{el.endDate}
                   </option>
                 );
@@ -105,7 +171,18 @@ const AddTaskModal = (props) => {
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Status</Form.Label>
-            <Form.Control type="date" placeholder="Enter Status" />
+            <Form.Select
+              value={statusOfTask}
+              onChange={(e) => {
+                setStatusOfTask(e.target.value);
+              }}
+              aria-label="Default select example"
+            >
+              <option value="">Select status of task</option>
+              <option value="todo">Todo</option>
+              <option value="inprogress">In Progress</option>
+              <option value="done">Done</option>
+            </Form.Select>
           </Form.Group>
           <Button
             variant="dark"

@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "../Styles/Landingpage.css";
 import Button from "react-bootstrap/esm/Button";
 import AddSprintModal from "../Components/AddSprintModal";
+import ChangeTaskModal from "../Components/ChangeTaskModal";
 
 const LandingPage = () => {
   const [list, setList] = useState([]);
@@ -11,6 +12,7 @@ const LandingPage = () => {
   const [taskList, setTaskList] = useState([]);
   const [activeSprint, setActiveSprint] = useState("");
   const [modalShow, setModalShow] = React.useState(false);
+  const [statusModalShow, setStatusModalShow] = React.useState(false);
   const [todos, setTodos] = useState([]);
   const [inprogress, setInprogress] = useState([]);
   const [doneTasks, setDoneTaks] = useState([]);
@@ -51,7 +53,6 @@ const LandingPage = () => {
   }, [activeSprint]);
 
   useEffect(() => {
-    console.log(activeSprint);
     let tasks_list = taskList.filter((el) => {
       return el.sprintId === activeSprint;
     });
@@ -61,17 +62,21 @@ const LandingPage = () => {
     });
 
     let inprogress_list = tasks_list.filter((el) => {
-      return el.status == "inprogress";
+      return el.status === "inprogress";
     });
 
     let done_list = tasks_list.filter((el) => {
-      return el.status == "done";
+      return el.status === "done";
     });
 
     setTodos(todos_list);
     setInprogress(inprogress_list);
     setDoneTaks(done_list);
   }, [activeSprint]);
+
+  useEffect(() => {
+    toast.success("Click on Sprint to continue");
+  }, []);
 
   return (
     <>
@@ -87,7 +92,7 @@ const LandingPage = () => {
           </Button>
           <ul
             style={{
-              listStyleType: "none",
+              listStyleType: "disc",
               border: "1px solid #fff",
               width: "80%",
               marginLeft: "10%",
@@ -98,6 +103,7 @@ const LandingPage = () => {
               return (
                 <li
                   key={el._id}
+                  className={activeSprint === el._id ? "active" : "none"}
                   onClick={() => {
                     setActiveSprint(el._id);
                   }}
@@ -118,9 +124,11 @@ const LandingPage = () => {
             todos.map((el) => {
               return (
                 <div key={el._id} className="todo_task">
-                  <h5 style={{marginTop:"5px",marginBottom:"10px"}}>{el.title}</h5>
+                  <h5 style={{ marginTop: "5px", marginBottom: "10px" }}>
+                    {el.title}
+                  </h5>
                   <p>
-                    <span style={{marginRight:"10px"}}>
+                    <span style={{ marginRight: "10px" }}>
                       <img
                         style={{
                           width: "30px",
@@ -145,8 +153,16 @@ const LandingPage = () => {
                     {el.type}
                   </button>
                   <div className="btn_updates_tasks">
-                  <Button className="change_status" variant="warning">Edit</Button>
-                  <Button className="change_status" variant="danger">Delete</Button>
+                    <Button
+                      className="change_status"
+                      variant="warning"
+                      onClick={() => setStatusModalShow(true)}
+                    >
+                      Edit
+                    </Button>
+                    <Button className="change_status" variant="danger">
+                      Delete
+                    </Button>
                   </div>
                 </div>
               );
@@ -160,37 +176,47 @@ const LandingPage = () => {
             inprogress.map((el) => {
               return (
                 <div key={el._id} className="todo_task">
-                <h5 style={{marginTop:"5px",marginBottom:"10px"}}>{el.title}</h5>
-                <p>
-                  <span style={{marginRight:"10px"}}>
-                    <img
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        borderRadius: "50%",
-                      }}
-                      src={el.assigneeAvatar}
-                      alt=""
-                    />
-                  </span>
-                  {el.assigneeName}
-                </p>
-                <button
-                  className={
-                    el.type === "bug"
-                      ? "bug_type"
-                      : el.type === "feature"
-                      ? "feature_type"
-                      : "story_type"
-                  }
-                >
-                  {el.type}
-                </button>
-                <div className="btn_updates_tasks">
-                <Button className="change_status" variant="warning">Edit</Button>
-                <Button className="change_status" variant="danger">Delete</Button>
+                  <h5 style={{ marginTop: "5px", marginBottom: "10px" }}>
+                    {el.title}
+                  </h5>
+                  <p>
+                    <span style={{ marginRight: "10px" }}>
+                      <img
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          borderRadius: "50%",
+                        }}
+                        src={el.assigneeAvatar}
+                        alt=""
+                      />
+                    </span>
+                    {el.assigneeName}
+                  </p>
+                  <button
+                    className={
+                      el.type === "bug"
+                        ? "bug_type"
+                        : el.type === "feature"
+                        ? "feature_type"
+                        : "story_type"
+                    }
+                  >
+                    {el.type}
+                  </button>
+                  <div className="btn_updates_tasks">
+                    <Button
+                      className="change_status"
+                      variant="warning"
+                      onClick={() => setStatusModalShow(true)}
+                    >
+                      Edit
+                    </Button>
+                    <Button className="change_status" variant="danger">
+                      Delete
+                    </Button>
+                  </div>
                 </div>
-              </div>
               );
             })
           ) : (
@@ -202,37 +228,47 @@ const LandingPage = () => {
             doneTasks.map((el) => {
               return (
                 <div key={el._id} className="todo_task">
-                <h5 style={{marginTop:"5px",marginBottom:"10px"}}>{el.title}</h5>
-                <p>
-                  <span style={{marginRight:"10px"}}>
-                    <img
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        borderRadius: "50%",
-                      }}
-                      src={el.assigneeAvatar}
-                      alt=""
-                    />
-                  </span>
-                  {el.assigneeName}
-                </p>
-                <button
-                  className={
-                    el.type === "bug"
-                      ? "bug_type"
-                      : el.type === "feature"
-                      ? "feature_type"
-                      : "story_type"
-                  }
-                >
-                  {el.type}
-                </button>
-                <div className="btn_updates_tasks">
-                <Button className="change_status" variant="warning">Edit</Button>
-                <Button className="change_status" variant="danger">Delete</Button>
+                  <h5 style={{ marginTop: "5px", marginBottom: "10px" }}>
+                    {el.title}
+                  </h5>
+                  <p>
+                    <span style={{ marginRight: "10px" }}>
+                      <img
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          borderRadius: "50%",
+                        }}
+                        src={el.assigneeAvatar}
+                        alt=""
+                      />
+                    </span>
+                    {el.assigneeName}
+                  </p>
+                  <button
+                    className={
+                      el.type === "bug"
+                        ? "bug_type"
+                        : el.type === "feature"
+                        ? "feature_type"
+                        : "story_type"
+                    }
+                  >
+                    {el.type}
+                  </button>
+                  <div className="btn_updates_tasks">
+                    <Button
+                      className="change_status"
+                      variant="warning"
+                      onClick={() => setStatusModalShow(true)}
+                    >
+                      Edit
+                    </Button>
+                    <Button className="change_status" variant="danger">
+                      Delete
+                    </Button>
+                  </div>
                 </div>
-              </div>
               );
             })
           ) : (
@@ -241,7 +277,11 @@ const LandingPage = () => {
         </div>
       </div>
       <AddSprintModal show={modalShow} onHide={() => setModalShow(false)} />
-      <ToastContainer />
+      <ChangeTaskModal
+        show={statusModalShow}
+        onHide={() => setStatusModalShow(false)}
+      />
+      <ToastContainer position="bottom-right" theme="dark" autoClose={1500} />
     </>
   );
 };
