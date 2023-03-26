@@ -1,71 +1,197 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.main_parent_div{
+.main_parent_div {
+  width: 100%;
+  height: 88vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.sprints {
+  background: #000;
+  color: #fff;
+  width: 25%;
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 20px 20px;
+}
+.todo {
+  background: lightcoral;
+  width: 25%;
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 20px 20px;
+}
+.inprogress {
+  background: lightyellow;
+  width: 25%;
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 20px 20px;
+}
+.done {
+  background: lightgreen;
+  width: 25%;
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 20px 20px;
+}
+.todo_task {
+  width: 95%;
+  height: auto;
+  background: #f9f9f9;
+  color: #222;
+  margin-left: 2.5%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  text-align: left;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.bug_type {
+  width: 50%;
+  height: 25px;
+  background: lightcoral;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: #f9f9f9;
+  font-size: small;
+}
+.feature_type {
+  width: 50%;
+  height: 25px;
+  background: lightyellow;
+  color: #222;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  font-size: small;
+}
+.story_type {
+  width: 50%;
+  height: 25px;
+  background: lightgreen;
+  color: #222;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  font-size: small;
+}
+.btn_updates_tasks {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-top: 20px;
+  margin-left: 2.5%;
+}
+.btn_updates_tasks button {
+  width: 45%;
+  height: 30px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.active {
+  background: #f9f9f9;
+  color: #000;
+}
+.NOT_LOGGED_IN {
+  width: 100%;
+  height: 80vh;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: larger;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  background: #f9f9f9;
+}
+
+@media screen and (max-width: 1000px) {
+  .main_parent_div {
     width: 100%;
-    height: 88vh;
-    border: 1px solid;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-}
-.sprints{
+    flex-direction: column;
+  }
+  .sprints {
     background: #000;
     color: #fff;
-    width: 25%;
-    height: 100%;
+    width: 90%;
+    height: 500px;
     overflow-y: scroll;
-    border: 1px solid black;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
     padding: 20px 20px;
-}
-.todo{
-   background: lightcoral;
-   width: 25%;
-   height: 100%;
-   overflow-y: scroll;
-   border: 1px solid black;
-   display: flex;
-   align-items: flex-start;
-   justify-content: flex-start;
-   flex-direction: column;
-   padding: 20px 20px;
-}
-.inprogress{
-     background: lightyellow;
-     width: 25%;
-     height: 100%;
-     overflow-y: scroll;
-     border: 1px solid black;
-     display: flex;
-     align-items: flex-start;
-     justify-content: flex-start;
-     flex-direction: column;
-     padding: 20px 20px;
-}
-.done{
-   background: lightgreen;
-   width: 25%;
-   height: 100%;
-   overflow-y: scroll;
-   border: 1px solid black;
-   display: flex;
-   align-items: flex-start;
-   justify-content: flex-start;
-   flex-direction: column;
-   padding: 20px 20px;
-}
-.todo_task{
-    width: 95%;
+  }
+  .todo {
+    background: lightcoral;
+    width: 90%;
+    height: 500px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 20px 20px;
+  }
+  .inprogress {
+    background: lightyellow;
+    width: 90%;
+    height: 500px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 20px 20px;
+  }
+  .done {
+    background: lightgreen;
+    width: 90%;
+    height: 500px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 20px 20px;
+  }
+  .todo_task {
+    width: 80%;
     height: auto;
     background: #f9f9f9;
     color: #222;
-    margin-left: 2.5%;
+    margin-left: 10%;
     display: flex;
     align-items: flex-start;
     justify-content: space-evenly;
@@ -75,50 +201,61 @@
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
 }
-.bug_type{
-    width: 50%;
-    height: 25px;
-    background: lightcoral;
-    border: none;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    color: #f9f9f9;
-    font-size: small;
-}
-.feature_type{
-    width: 50%;
-    height: 25px;
-    background: lightyellow;
-    color: #222;
-    border: none;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;   font-size: small;
-}
-.story_type{
-    width: 50%;
-    height: 25px;
-    background: lightgreen;
-    color: #222;
-    border: none;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;   font-size: small;
-}
-.btn_updates_tasks{
-    width: 95%;
+
+@media screen and (max-width: 500px) {
+  .main_parent_div {
+    width: 100%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding-top: 20px;
-    margin-left: 2.5%;
-}
-.btn_updates_tasks button{
-    width: 45%;
-    height: 30px;
-    font-size: 12px;
-    font-weight: bold;
-}
-.active{
-    background: #f9f9f9;
-    color: #000;
+    flex-direction: column;
+  }
+  .sprints {
+    background: #000;
+    color: #fff;
+    width: 90%;
+    height: 500px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 20px 20px;
+  }
+  .todo {
+    background: lightcoral;
+    width: 90%;
+    height: 500px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 20px 20px;
+  }
+  .inprogress {
+    background: lightyellow;
+    width: 90%;
+    height: 500px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 20px 20px;
+  }
+  .done {
+    background: lightgreen;
+    width: 90%;
+    height: 500px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 20px 20px;
+  }
 }

@@ -7,11 +7,20 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import AddTaskModal from "./AddTaskModal";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginSuccess, LogoutSuccess } from "../Providers/action";
+import { toast, ToastContainer } from "react-toastify";
 
 const NavbarMain = () => {
   const [modalShow, setModalShow] = React.useState(false);
-  const res=JSON.parse(localStorage.getItem("res"))||"";
-  
+  const dispatch = useDispatch();
+  const userData = useSelector((store) => store.reducer.userData);
+
+  const handleLogout = () => {
+    toast.success("Logout Success!");
+    dispatch(LogoutSuccess());
+  };
+
   return (
     <>
       <Navbar
@@ -41,30 +50,47 @@ const NavbarMain = () => {
               >
                 Add Task
               </Button>
-              {res===""?<GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  console.log(credentialResponse);
-                  var decoded = jwt_decode(credentialResponse.credential);
-                  console.log(decoded);
-                  fetch(`${process.env.REACT_APP_API_URL}users`, {
-                    method: "POST",
-                    headers: {
-                      "Content-type": "application/json",
-                    },
-                    body: JSON.stringify({ data: decoded }),
-                  })
-                    .then((res) => {
-                      return res.json();
+              {userData === "" ? (
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    console.log(credentialResponse);
+                    var decoded = jwt_decode(credentialResponse.credential);
+                    console.log(decoded);
+                    fetch(`${process.env.REACT_APP_API_URL}users`, {
+                      method: "POST",
+                      headers: {
+                        "Content-type": "application/json",
+                      },
+                      body: JSON.stringify({ data: decoded }),
                     })
-                    .then((res) => {
-                      localStorage.setItem("res", JSON.stringify(res));
-                    });
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                  alert("login failed");
-                }}
-              />:<Button variant="light"><img style={{width:"30px",borderRadius:"50%",marginRight:"10px",height:"30px"}} src={res.avatar} alt="" />{res.username}</Button>}
+                      .then((res) => {
+                        return res.json();
+                      })
+                      .then((res) => {
+                        toast.success("Login Success");
+                        dispatch(LoginSuccess(res));
+                      });
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                    toast.error("Login Failed!");
+                  }}
+                />
+              ) : (
+                <Button onClick={handleLogout} variant="light">
+                  <img
+                    style={{
+                      width: "30px",
+                      borderRadius: "50%",
+                      marginRight: "10px",
+                      height: "30px",
+                    }}
+                    src={userData.avatar}
+                    alt=""
+                  />
+                  {userData.username}
+                </Button>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

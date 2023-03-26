@@ -5,6 +5,7 @@ import "../Styles/Landingpage.css";
 import Button from "react-bootstrap/esm/Button";
 import AddSprintModal from "../Components/AddSprintModal";
 import ChangeTaskModal from "../Components/ChangeTaskModal";
+import { useSelector } from "react-redux";
 
 const LandingPage = () => {
   const [list, setList] = useState([]);
@@ -16,6 +17,7 @@ const LandingPage = () => {
   const [todos, setTodos] = useState([]);
   const [inprogress, setInprogress] = useState([]);
   const [doneTasks, setDoneTaks] = useState([]);
+  const isAuth = useSelector((store) => store.reducer.isAuth);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}sprints`)
@@ -78,6 +80,19 @@ const LandingPage = () => {
     toast.success("Click on Sprint to continue");
   }, []);
 
+  if (isAuth == false) {
+    toast.warn("Not Logged In");
+    return (
+      <>
+        <NavbarMain />
+        <div className="NOT_LOGGED_IN">
+          <div>Login To Continue</div>
+        </div>
+        <ToastContainer position="bottom-right" theme="dark" autoClose={1500} />
+      </>
+    );
+  }
+
   return (
     <>
       <NavbarMain />
@@ -120,6 +135,9 @@ const LandingPage = () => {
           </ul>
         </div>
         <div className="todo">
+          <div className="todo_task" style={{ fontWeight: "400" }}>
+            TODO TASKS
+          </div>
           {todos.length > 0 ? (
             todos.map((el) => {
               return (
@@ -160,6 +178,11 @@ const LandingPage = () => {
                     >
                       Edit
                     </Button>
+                    <ChangeTaskModal
+                      show={statusModalShow}
+                      taskdata={el}
+                      onHide={() => setStatusModalShow(false)}
+                    />
                     <Button className="change_status" variant="danger">
                       Delete
                     </Button>
@@ -168,10 +191,16 @@ const LandingPage = () => {
               );
             })
           ) : (
-            <p>to tasks found</p>
+            <div className="todo_task">
+              {" "}
+              <p>No Tasks Found</p>
+            </div>
           )}
         </div>
         <div className="inprogress">
+          <div className="todo_task" style={{ fontWeight: "400" }}>
+            IN PROGRESS TASKS
+          </div>
           {inprogress.length > 0 ? (
             inprogress.map((el) => {
               return (
@@ -212,6 +241,11 @@ const LandingPage = () => {
                     >
                       Edit
                     </Button>
+                    <ChangeTaskModal
+                      show={statusModalShow}
+                      taskdata={el}
+                      onHide={() => setStatusModalShow(false)}
+                    />
                     <Button className="change_status" variant="danger">
                       Delete
                     </Button>
@@ -220,10 +254,16 @@ const LandingPage = () => {
               );
             })
           ) : (
-            <p>to tasks found</p>
+            <div className="todo_task">
+              {" "}
+              <p>No Tasks Found</p>
+            </div>
           )}
         </div>
         <div className="done">
+          <div className="todo_task" style={{ fontWeight: "400" }}>
+            DONE TASKS
+          </div>
           {doneTasks.length > 0 ? (
             doneTasks.map((el) => {
               return (
@@ -264,6 +304,11 @@ const LandingPage = () => {
                     >
                       Edit
                     </Button>
+                    <ChangeTaskModal
+                      show={statusModalShow}
+                      taskdata={el}
+                      onHide={() => setStatusModalShow(false)}
+                    />
                     <Button className="change_status" variant="danger">
                       Delete
                     </Button>
@@ -272,15 +317,14 @@ const LandingPage = () => {
               );
             })
           ) : (
-            <p>no taks found</p>
+            <div className="todo_task">
+              {" "}
+              <p>No Tasks Found</p>
+            </div>
           )}
         </div>
       </div>
       <AddSprintModal show={modalShow} onHide={() => setModalShow(false)} />
-      <ChangeTaskModal
-        show={statusModalShow}
-        onHide={() => setStatusModalShow(false)}
-      />
       <ToastContainer position="bottom-right" theme="dark" autoClose={1500} />
     </>
   );

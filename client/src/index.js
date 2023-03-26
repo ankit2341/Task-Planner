@@ -1,17 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Provider } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
+import { persistor, store } from "./Providers/store";
+import { PersistGate } from "redux-persist/integration/react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-   <GoogleOAuthProvider clientId={`${process.env.REACT_APP_CLIENT_ID}`}>
-    <App />
+    <GoogleOAuthProvider clientId={`${process.env.REACT_APP_CLIENT_ID}`}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+        <App />
+        </PersistGate>
+      </Provider>
     </GoogleOAuthProvider>
   </BrowserRouter>
 );
