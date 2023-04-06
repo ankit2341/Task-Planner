@@ -5,6 +5,7 @@
 
 - About the project
 - Demo
+- Screenshots
 - Technologies
 - Status
 
@@ -18,6 +19,10 @@ Want to schedule your tasks as per sprints login now to task planner app and get
 ## Demo
 
 deployed link for demo:- https://celebrated-blancmange-4d91c3.netlify.app/
+
+## Screenshots
+
+[![taskplanner1.jpg](https://i.postimg.cc/MpvvxBhD/taskplanner1.jpg)](https://postimg.cc/sMCV4MfQ)
 
 
 ## Technologies
